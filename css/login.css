@@ -1,0 +1,92 @@
+/* Full-page background */
+body {
+    background: linear-gradient(to right, #0066cc, #003366); /* Deep ocean blue */
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* Transparent login container */
+.login-container {
+    background: rgba(255, 255, 255, 0.15); /* Softer transparency */
+    backdrop-filter: blur(15px); /* More blur for a glass effect */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Login form styling */
+h2 {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Input fields */
+input {
+    width: 80%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+    text-align: center;
+}
+
+input[type="text"], input[type="password"] {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px; /* Reduced placeholder font size */
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.35);
+    border-color: #ffffff;
+}
+
+
+/* Login button */
+button {
+    width: 87%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00aaff;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #0088cc;
+    transform: scale(1.05);
+}

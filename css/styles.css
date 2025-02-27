@@ -1,0 +1,209 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #333;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Navbar Left (Sidebar Toggle + Logo) */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Logo */
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Navbar Icons (Notification + Logout) */
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Reduce spacing between icons */
+    flex-wrap: nowrap;
+    margin-right: 30px; /* Move icons more to the left */
+}
+
+/* Notification Icon */
+.notification-icon {
+    position: relative;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 8px; /* Adjust padding */
+}
+
+/* Notification Count */
+.notif-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* Logout Icon */
+.logout-icon {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 8px; /* Adjust padding */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* Responsive Fix */
+@media screen and (max-width: 768px) {
+    .nav-icons {
+        gap: 8px; /* Reduce gap on small screens */
+        margin-right: 20px; /* Move icons slightly left on smaller screens */
+    }
+
+    .notif-count {
+        top: -3px;
+        right: -3px;
+        font-size: 10px;
+        min-width: 16px;
+    }
+
+    .nav-icons a {
+        font-size: 14px;
+        padding: 5px 6px;
+    }
+}
+
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: -250px;
+    top: 60px; /* Below navbar */
+    width: 250px;
+    height: calc(100vh - 60px);
+    background-color: #222;
+    color: white;
+    transition: left 0.3s ease-in-out;
+    padding-top: 20px;
+    overflow-y: auto;
+    z-index: 900;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+/* Sidebar list */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #444;
+}
+
+.menu-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 5px 0;
+    padding: 5px 10px;
+    color: #777; /* Lighter grey */
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Content */
+.content {
+    margin-top: 60px;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* When sidebar is open */
+.content.shift {
+    margin-left: 250px;
+}
+
+/* Responsive Fixes */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+    }
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    .notif-count {
+        right: -5px;
+    }
+
+    /* Adjust Sidebar for smaller screens */
+    .sidebar {
+        width: 200px;
+    }
+
+    .content.shift {
+        margin-left: 200px;
+    }
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
