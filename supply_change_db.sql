@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2025 at 01:40 AM
+-- Generation Time: Feb 27, 2025 at 07:34 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -35,6 +35,30 @@ CREATE TABLE `notifications` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` enum('unread','read') NOT NULL DEFAULT 'unread'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `product_id` int(11) NOT NULL,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `product_name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
+  `currency` enum('RM','USD','INR') NOT NULL,
+  `status` enum('Inactive','Active') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `date_created`, `product_name`, `description`, `unit_price`, `currency`, `status`) VALUES
+(1, '2025-02-26 22:16:39', 'UX100', 'mmb', 2000.00, 'RM', 'Active'),
+(2, '2025-02-26 22:16:53', 'BW410', 'aa', 1000.00, 'RM', 'Active');
 
 -- --------------------------------------------------------
 
@@ -83,6 +107,12 @@ ALTER TABLE `notifications`
   ADD KEY `po_id` (`po_id`);
 
 --
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`product_id`);
+
+--
 -- Indexes for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
@@ -105,6 +135,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `notifications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
