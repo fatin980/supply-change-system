@@ -1,15 +1,12 @@
-.content {
-    max-width: 100%; /* Adjust width as needed */
-    margin: 20px auto;
+.content-container {
+    max-width: 100%;
+    max-height: fit-content;
     padding: 20px;
-}
-
-.content-box {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
+    background: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
+    border-radius: 8px;
+    position: relative; /* Allows dropdowns to be positioned correctly */
+    overflow: visible !important; /* Ensures dropdowns are not cut off */
 }
 
 h2 {
@@ -36,118 +33,6 @@ h5 {
     overflow: visible; /* Ensures dropdowns are not hidden */
 }
 
-table {
-    border-collapse: collapse;
-        position: relative; /* Allows dropdowns to be positioned correctly */
-    overflow: visible; /* Ensures dropdowns are not hidden */
-}
-
-th, td {
-    padding: 15px;
-    width: auto;
-    border-bottom: 1px solid #ddd;
-    border: 1px solid lightgrey; 
-}
-
-th {
-    background: grey;
-    text-align: left;
-    font-size: 14px;
-    padding: 10px 30px;
-    color: #fff;
-}
-
-td {
-    background: #f5f5f5;   
-    padding: 5px 10px;
-    text-align: center;
-    font-size: 12px;
-}
-
-tr:nth-child(even) td {
-    background: whitesmoke;
-}
-
-tr td:hover{
-    background: lightgrey;
-    cursor: pointer;
-}
-
-tbody tr:nth-child(odd) td {
-    background: #e0e0e0; /* Light gray for row numbers */
-    font-weight: bold;
-    text-align: left;
-    padding: 10px;
-}
-
-tbody tr:nth-child(odd) td:hover {
-    background: #c0bfbf; /* Light gray for row numbers */
-    font-weight: bold;
-    text-align: left;
-    padding: 10px;
-}
-
-tbody tr:nth-child(even) td {
-    background: #f5f5f5; /* Alternate row background */
-    font-weight: bold;
-    text-align: left;
-    padding: 10px;
-}
-
-tbody tr:nth-child(even) td:hover {
-    background: #dbdbdb; /* Alternate row background */
-    font-weight: bold;
-    text-align: left;
-    padding: 10px;
-}
-
-td .badge {
-    font-size: 12px;
-}
-
-.badge {
-    width:60px;
-    max-width: 65px;
-    height:20px;
-    text-align: middle;
-}
-
-
-/* Table */
-.table-box {
-    line-height: 1.5;
-}
-
-/* Table Next */
-.table-next {
-    background-color: lightgrey;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.table-next-toggle {
-    background-color: grey;
-}
-
-.table.prev {
-    background-color: lightgrey;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.table-prev-toggle {
-    background-color: grey;
-}
-
-.pagination {
-    margin-top: 5px;
-    font-size: 13px;
-    font-weight: bold;
-    align-items: right;
-    position: right;
-}
 
 .add-supplier-btn {
     background-color: rgba(0,0,255,0.8);
@@ -156,7 +41,7 @@ td .badge {
     border-color: white;
     border-radius: 5px;
     height: 35px;
-    width: 100px;
+    width: 110px;
     font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -177,53 +62,89 @@ td .badge {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Modal Background */
 .modal {
     display: none;
     position: fixed;
-    z-index: 9999;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Modal Content */
 .modal-content {
-    background-color: white;
-    margin: 10% auto;
+    background: white;
     padding: 20px;
+    width: 400px;
     border-radius: 8px;
-    width: 40%;
+    text-align: left;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
 }
 
-.close {
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-    
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-.modal-body input,
-.modal-body textarea {
-    border: 1px solid #ddd;
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Labels & Inputs */
+label {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+input, select {
+    width: 95%;
     padding: 8px;
-    border-radius: 5px;
-    width: 100%;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-.modal-body button {
-    background-color: #28a745;
-    color: white;
+textarea {
+    width: 95%;
+    padding: 8px;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Save Button */
+button[class="edit"], button[class="add"] {
+    display: block;
+    width: 100%;
     padding: 10px;
+    background: green;
+    color: white;
     border: none;
-    border-radius: 5px;
-    width: 100%;
     cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: 0.3s;
 }
 
-.modal-body button:hover {
-    background-color: #218838;
+button[class="edit"], button[class="add"]:hover {
+    background: darkgreen;
 }
 
 .search-form {
@@ -290,96 +211,221 @@ button[type="btn"]:hover {
     background-color: #0056b3;
 }
 
-/* Ensure the modal content is centered and properly spaced */
+/* Modal Background */
+.view-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Content */
 .view-modal-content {
-    border-radius: 10px;
+    background: white;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+    text-align: left;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Style the modal header */
+/* Modal Header */
 .view-modal-header {
-    color: black;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-/* Close button styling */
-.view-modal-header .btn-close {
-    filter: invert(0); /* Makes the close button dark */
-}
-
-/* Modal body styling */
-.view-modal-body {
-    font-size: 16px;
-    color: #333;
-}
-
-/* Make all text details align properly */
-.view-modal-body p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px; /* Adds spacing between rows */
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-/* Ensure the badge does not break alignment */
-.view-modal-body p span {
-    font-weight: bold;
-    font-size: 13px;
+.view-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
 }
 
-/* If needed, add padding to the modal body */
-.view-modal-body {
-    padding: 20px;
-}
-
-/* Keep all labels bold except the status */
-.view-modal-body p strong {
-    font-weight: bold;
+/* Close Button */
+.close-btn {
+    color: grey;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
     font-size: 16px;
+    transition: 0.3s;
 }
 
-/* Reset status text to normal weight */
-#view_status {
-    font-weight: normal !important;
+.close-btn:hover {
+    background: darkgrey;
 }
 
-/* Ensure the data spans take the rest of the space */
+/* Modal Body */
+.view-modal-body {
+    margin-top: 15px;
+    line-height: 1.6;
+}
+
+.view-modal-body p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
 .view-modal-body span {
-    width: 65%;
-    text-align: left;
+    width: 48%;
 }
 
-/* Style the badge (status) */
-.view-badge {
-    padding: 6px 10px;
-    font-size: 14px;
+#view_status {
+    display: inline-block;
+    padding: 5px 10px;
     border-radius: 5px;
-}
+    text-align: center;
+    font-weight: bold;
+    min-width: 80px; /* Ensures it looks balanced */
+} 
 
-/* Green for Active */
-.view-badge.bg-success {
-    background-color: #28a745 !important;
+
+
+/* Status Badge */
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
     color: white;
 }
 
-/* Gray for Inactive */
-.view-badge.bg-secondary {
-    background-color: #6c757d !important;
-    color: white;
+/* Badge Colors */
+.badge.active {
+    background-color: green;
 }
 
-/* Footer buttons */
-.view-modal-footer .btn {
-    padding: 8px 15px;
-    border-radius: 5px;
+.badge.inactive {
+    background-color: gray;
 }
 
-/* Responsive modal adjustments */
-@media (max-width: 576px) {
-    .view-modal-dialog {
-        width: 90%;
-        margin: auto;
+/* Fade-In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Dropdown Button */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: #f0f0f0;
+    color: black;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-button:hover {
+    background-color: #ddd;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    min-width: 150px;
+    z-index: 100;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f5f5f5;
+}
+
+/* Icons */
+.dropdown-menu button i {
+    margin-right: 8px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination .page-link {
+    padding: 6px 12px;
+    margin: 0 3px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+}
+
+.pagination .page-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+
+/* Status Badge */
+.status-badge {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.status-active {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-inactive {
+    background-color: #6c757d;
+    color: white;
+}
+
