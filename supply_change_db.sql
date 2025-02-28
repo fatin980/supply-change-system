@@ -175,6 +175,23 @@ INSERT INTO `shipping_terms` (`shipping_id`, `date_created`, `last_updated`, `re
 
 -- --------------------------------------------------------
 
+  --
+-- Table structure for table ``suppliers`
+--
+
+CREATE TABLE `suppliers` (
+  `id` int(11) NOT NULL,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `supplier` varchar(100) NOT NULL,
+  `contact_person` varchar(50) NOT NULL,
+  `contact_number` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  -- --------------------------------------------------------
+
 --
 -- Table structure for table `users`
 --
@@ -245,6 +262,13 @@ ALTER TABLE `shipping_terms`
   ADD PRIMARY KEY (`shipping_id`);
 
 --
+-- Indexes for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier` (`supplier`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -296,6 +320,12 @@ ALTER TABLE `settings`
 --
 ALTER TABLE `shipping_terms`
   MODIFY `shipping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
