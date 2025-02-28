@@ -99,6 +99,16 @@ tbody tr:nth-child(even) td:hover {
     padding: 10px;
 }
 
+td .badge {
+    font-size: 12px;
+}
+
+.badge {
+    width:50px;
+    height:20px;
+    text-align: middle;
+}
+
 /* Table */
 .table-box {
     line-height: 1.5;
