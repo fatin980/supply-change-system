@@ -38,6 +38,8 @@ h5 {
 
 table {
     border-collapse: collapse;
+        position: relative; /* Allows dropdowns to be positioned correctly */
+    overflow: visible; /* Ensures dropdowns are not hidden */
 }
 
 th, td {
@@ -108,6 +110,7 @@ td .badge {
     height:20px;
     text-align: middle;
 }
+
 
 /* Table */
 .table-box {
