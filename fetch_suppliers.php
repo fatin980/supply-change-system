@@ -2,7 +2,7 @@
 session_start();
 include 'config.php';
 
-$limit = 5;
+$limit = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 $search = isset($_GET['query']) ? $conn->real_escape_string($_GET['query']) : '';
