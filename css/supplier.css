@@ -38,6 +38,8 @@ h5 {
 
 table {
     border-collapse: collapse;
+        position: relative; /* Allows dropdowns to be positioned correctly */
+    overflow: visible; /* Ensures dropdowns are not hidden */
 }
 
 th, td {
@@ -98,6 +100,18 @@ tbody tr:nth-child(even) td:hover {
     text-align: left;
     padding: 10px;
 }
+
+td .badge {
+    font-size: 12px;
+}
+
+.badge {
+    width:60px;
+    max-width: 65px;
+    height:20px;
+    text-align: middle;
+}
+
 
 /* Table */
 .table-box {

@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +91,12 @@ include 'config.php';
                 <p><strong>Email:</strong> <span id="email"></span></p>
                 <p><strong>Address:</strong> <span id="address"></span></p> 
                 <p><strong>Status:</strong> 
-                    <span class="badge" id="view_status" style="padding: 5px 10px 5px 10px; margin-top: 5px; width: 60px; margin-right: 50%; text-align: center;"></span>
-                </p>              
+                    <span class="badge" id="view_status" 
+                        style="display: flex; justify-content: center; align-items: center; 
+                            padding: 5px; margin-top: 5px; width: 60px; height: 25px; 
+                            margin-right: 50%">;
+                    </span>
+                </p>             
             </div>
             <div class="modal-footer view-modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
