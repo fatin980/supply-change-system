@@ -1,227 +1,147 @@
 <?php
-    include 'config.php'; // Include database connection file
-    include 'header.php';
+include 'config.php'; // Include database connection file
 
-    $limit = 10; // Number of entries per page
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
-    $start = ($page - 1) * $limit;
+// Get search and pagination inputs
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$limit = 10; // Rows per page
+$offset = ($page - 1) * $limit;
 
-    $search = isset($_GET['search']) ? $_GET['search'] : '';
+// Build search query
+$whereClause = "";
+if (!empty($search)) {
+    $whereClause = " WHERE product_name LIKE '%$search%' OR currency LIKE '%$search%'";
+}
 
-    // Fetch products with search functionality
-    $query = "SELECT * FROM products WHERE product_name LIKE ? OR currency LIKE ? LIMIT ?, ?";
-    $stmt = $conn->prepare($query);
-    $searchParam = "%$search%";
-    $stmt->bind_param("ssii", $searchParam, $searchParam, $start, $limit);
-    $stmt->execute();
-    $result = $stmt->get_result();
+// Count total rows (AFTER applying search filter)
+$countQuery = "SELECT COUNT(*) AS total FROM products $whereClause";
+$countResult = $conn->query($countQuery);
+$totalRows = ($countResult->num_rows > 0) ? $countResult->fetch_assoc()['total'] : 0;
+$totalPages = ceil($totalRows / $limit);
 
-    // Count total records for pagination
-    $totalQuery = "SELECT COUNT(*) AS total FROM products WHERE product_name LIKE ? OR currency LIKE ?";
-    $stmtTotal = $conn->prepare($totalQuery);
-    $stmtTotal->bind_param("ss", $searchParam, $searchParam);
-    $stmtTotal->execute();
-    $totalResult = $stmtTotal->get_result()->fetch_assoc();
-    $total = $totalResult['total'];
-    $pages = ceil($total / $limit);
+// **If searching, ignore pagination**
+if (!empty($search)) {
+    $sql = "SELECT * FROM products $whereClause"; // No LIMIT, show all results
+} else {
+    $sql = "SELECT * FROM products $whereClause LIMIT $limit OFFSET $offset";
+}
 
+$result = $conn->query($sql);
+$data = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+}
 ?>
-
-    <!-- Modal Styles -->
-    <style>
-    /* Modal Overlay */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-        backdrop-filter: blur(5px); /* Adds blur effect */
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out; /* Smooth fade-in effect */
-    }
-
-    /* Modal Content */
-    .modal-content {
-        background-color: #fff;
-        padding: 25px;
-        width: 40%;
-        max-width: 500px; /* Ensures it doesn't get too wide */
-        text-align: center;
-        border-radius: 12px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.95); /* Slight zoom effect */
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Softer shadow */
-        opacity: 0;
-        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-    }
-
-    /* When Modal is Shown */
-    .modal.show {
-        opacity: 1;
-    }
-
-    .modal.show .modal-content {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1); /* Zooms in smoothly */
-    }
-
-    /* Close Button */
-    .close-btn {
-        float: right;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #555;
-        transition: color 0.3s;
-    }
-
-    .close-btn:hover {
-        color: #d9534f; /* Bootstrap danger color */
-    }
-
-    /* Input Fields & Select */
-    .modal-content input,
-    .modal-content textarea,
-    .modal-content select {
-        width: 80%;
-        padding: 10px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: 0.2s;
-    }
-
-    .modal-content input:focus,
-    .modal-content textarea:focus,
-    .modal-content select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-        outline: none;
-    }
-
-    /* Buttons */
-    .modal-content .btn {
-        width: 80%;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .modal-content .btn-primary {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-    .modal-content .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 600px) {
-        .modal-content {
-            width: 80%;
-            padding: 20px;
-        }
-    }
-
-    </style>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="icon" type="image/x-icon" href="img/Junzo_logo.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/page.css">
+    <!-- FontAwesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h2>Product List</h2>
+    <?php include ('header.php'); ?>
 
-        <div class="header-row">
-            <div class="button-container">
-                <button class="btn btn-success" onclick="openModal()">Create New</button>
+    <div class="content">
+        <div class="content-container">
+            <div class="header-container">
+                <h2>Product List</h2>
+                <button class="create-btn" onclick="openModal('customModal')">
+                <i class="fa-solid fa-plus"></i> Create New
+                </button>
             </div>
+
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search...">
             </div>
-        </div>
 
-        <!-- Custom Modal -->
-        <div id="customModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-                <h2>Add New Product</h2>
-                <form id="productForm">
-                    <input type="text" id="product_name" placeholder="Product Name" required>
-                    <textarea id="description" placeholder="Description" required></textarea>
-                    <input type="number" id="unit_price" placeholder="Unit Price" step="0.01" required>
-                    
-                    <!-- Currency Dropdown (RM, USD, INR) -->
-                    <select id="currency" required>
-                        <option value="RM">RM</option>
-                        <option value="USD">USD</option>
-                        <option value="INR">INR</option>
-                    </select>
-                    
-                    <!-- Status Dropdown -->
-                    <select id="status" required>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                    
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date Created</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Unit Price</th>
+                            <th>Currency</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data as $row): ?>
+                            <tr>
+                                <td><?php echo $row['product_id']; ?></td>
+                                <td><?php echo $row['date_created']; ?></td>
+                                <td><?php echo $row['product_name']; ?></td>
+                                <td><?php echo $row['description']; ?></td>
+                                <td><?php echo $row['unit_price']; ?></td>
+                                <td><?php echo $row['currency']; ?></td>
+                                <td><?php echo $row['status']; ?></td>
+    
+                                <td>
+                                    <a href="view_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                                    <a href="edit_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <a href="delete_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="?page=<?= max(1, $page - 1) ?>&search=<?= urlencode($search) ?>" <?= ($page == 1) ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>>Previous</a>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+                <?php endfor; ?>
+
+                <a href="?page=<?= min($totalPages, $page + 1) ?>&search=<?= urlencode($search) ?>" <?= ($page == $totalPages) ? 'style="pointer-events: none; opacity: 0.5;"' : '' ?>>Next</a>
             </div>
         </div>
+    </div>
 
-
-        <!-- Table -->
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date Created</th>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Unit Price</th>
-                    <th>Currency</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['product_id']; ?></td>
-                        <td><?php echo $row['date_created']; ?></td>
-                        <td><?php echo $row['product_name']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['unit_price']; ?></td>
-                        <td><?php echo $row['currency']; ?></td>
-                        <td><?php echo $row['status']; ?></td>
-
-                        <td>
-                            <a href="view_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                            <a href="edit_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="delete_product.php?id=<?php echo $row['product_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure?');"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-
-        <!-- Pagination -->
-        <div class="pagination">
-            <?php for ($i = 1; $i <= $pages; $i++): ?>
-                <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>" class="<?php echo $i == $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
-            <?php endfor; ?>
+    <!-- Custom Modal -->
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('customModal')">&times;</span>
+            <h3>Add New Product</h3>
+            <form id="productForm">
+                <input type="text" id="product_name" placeholder="Product Name" required>
+                <textarea id="description" placeholder="Description" required></textarea>
+                <input type="number" id="unit_price" placeholder="Unit Price" step="0.01" required>
+                    
+                <!-- Currency Dropdown (RM, USD, INR) -->
+                <select id="currency" required>
+                    <option value="RM">RM</option>
+                    <option value="USD">USD</option>
+                    <option value="INR">INR</option>
+                </select>
+                    
+                <!-- Status Dropdown -->
+                <select id="status" required>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                    
+                <button type="submit" class="submit-btn">Save</button>
+            </form>
         </div>
     </div>
 
     <?php include 'footer.php'; ?>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Sidebar Toggle
@@ -247,20 +167,42 @@
             });
 
             // Open Modal
-            function openModal() {
-                let modal = document.getElementById("customModal");
-                modal.classList.add("show");
-                modal.style.display = "block";
+            function openModal(modalId) {
+                let modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'flex';
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                }
             }
 
             // Close Modal
-            function closeModal() {
-                let modal = document.getElementById("customModal");
-                modal.classList.remove("show");
-                setTimeout(() => {
-                    modal.style.display = "none";
-                }, 300); // Delay to match transition effect
+            function closeModal(modalId) {
+            let modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
             }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                let modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        closeModal(modal.id);
+                    }
+                });
+
+                if (!event.target.matches('.dropbtn')) {
+                    document.querySelectorAll(".dropdown-content").forEach(menu => {
+                        menu.classList.remove("show");
+                    });
+                }
+            };
 
             // Product Form Submission (AJAX)
             document.getElementById("productForm").addEventListener("submit", function (event) {

@@ -164,7 +164,7 @@
 }
 
 /* Form Inputs */
-.modal-content input, .modal-content select {
+.modal-content input, .modal-content select, .modal-content textarea {
     width: 100%;
     padding: 8px;
     margin: 8px 0;
