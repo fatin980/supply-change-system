@@ -2,7 +2,7 @@
 include 'config.php'; // Database connection
 include 'header.php';
 
-$query = "SELECT * FROM products ORDER BY product_id ASC";
+$query = "SELECT * FROM shipping_terms ORDER BY shipping_id ASC";
 $result = $conn->query($query);
 ?>
 
@@ -11,7 +11,7 @@ $result = $conn->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product's Details</title>
+    <title>Shipping Details</title>
     <style>
         table {
             width: 100%;
@@ -27,6 +27,7 @@ $result = $conn->query($query);
         }
         th {
             background-color: #2e2d2d;
+            color: white;
         }
         .btn {
             padding: 5px 10px;
@@ -77,43 +78,42 @@ $result = $conn->query($query);
             display: flex;
             align-items: center;
         }
-
     </style>
 </head>
 <body>
     <div class="container">
-    <h2 class="header-title">
-        <a href="products.php" class="back-icon">&#8592;</a> Product's Details
-    </h2>
+        <h2 class="header-title">
+            <a href="shipping_terms.php" class="back-icon">&#8592;</a> Shipping Details
+        </h2>
 
-    <table>
-        <tr>
-            <th>Product ID</th>
-            <th>Product Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Currency</th>
-            <th>Status</th>
-        </tr>
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>
-                        <td>{$row['product_id']}</td>
-                        <td>{$row['product_name']}</td>
-                        <td>{$row['description']}</td>
-                        <td>{$row['unit_price']}</td>
-                        <td>{$row['currency']}</td>
-                        <td>{$row['status']}</td>
-                      </tr>";
+        <table>
+            <tr>
+                <th>Shipping ID</th>
+                <th>Requisitioners</th>
+                <th>Shipping Terms</th>
+                <th>Delivery Method</th>
+                <th>Status</th>
+            </tr>
+            <?php
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>{$row['shipping_id']}</td>
+                            <td>{$row['requisitioners']}</td>
+                            <td>{$row['shipping_terms']}</td>
+                            <td>{$row['deliver_via']}</td>
+                            <td>{$row['status']}</td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No shipping details found.</td></tr>";
             }
-        } else {
-            echo "<tr><td colspan='4'>No products found.</td></tr>";
-        }
-        ?>
-    </table>
+            ?>
+        </table>
     </div>
-    <?php include 'footer.php';?>
+    
+    <?php include 'footer.php'; ?>
+
     <script>
         function toggleSidebar() {
             let sidebar = document.querySelector('.sidebar');
@@ -122,7 +122,6 @@ $result = $conn->query($query);
             content.classList.toggle('shift');
         }
     </script>
-
 </body>
 </html>
 

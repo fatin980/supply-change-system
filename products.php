@@ -27,15 +27,6 @@
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css"> <!-- Add your custom CSS -->
-
     <!-- Modal Styles -->
     <style>
     /* Modal Overlay */
@@ -98,7 +89,7 @@
     .modal-content input,
     .modal-content textarea,
     .modal-content select {
-        width: 100%;
+        width: 80%;
         padding: 10px;
         margin: 8px 0;
         border: 1px solid #ccc;
@@ -117,7 +108,7 @@
 
     /* Buttons */
     .modal-content .btn {
-        width: 100%;
+        width: 80%;
         padding: 10px;
         font-size: 16px;
         border-radius: 6px;
