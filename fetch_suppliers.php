@@ -32,6 +32,9 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $i = $offset + 1;
     while ($row = $result->fetch_assoc()) {
+        $status = strtolower($row['status']);
+        $statusClass = ($status === 'active') ? 'status-active' : 'status-inactive';
+
         echo "<tr>
             <td>{$i}</td>
             <td>" . date("Y-m-d H:i", strtotime($row['date_created'])) . "</td>
@@ -39,40 +42,27 @@ if ($result->num_rows > 0) {
             <td>{$row['contact_person']} <br> {$row['contact_number']}</td>
             <td>{$row['email']}</td>
             <td>{$row['address']}</td>
-            <td><span class='badge " . 
-            (($row['status'] === 'Active' || strtolower($row['status']) === 'active') ? 'bg-success' : 'bg-secondary') . "'>" . 
-            htmlspecialchars($row['status']) . "</span></td>";
+            <td><span class='status-badge {$statusClass}'>" . htmlspecialchars($row['status']) . "</span></td>";
+
         if ($_SESSION['role'] == 'admin') {
             echo '<td align="center">
-                <div class="btn-group">
-                    <button type="btn" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon py-0" 
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Action <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <button class="dropdown-item view_data" data-id="' . $row['id'] . '">
-                                <span class="fa fa-info text-primary"></span> View
-                            </button>
-                        </li>
-                        <li><div class="dropdown-divider"></div></li>
-                        <li>
-                            <button class="dropdown-item edit_data" data-id="' . $row['id'] . '">
-                                <span class="fa fa-edit text-primary"></span> Edit
-                            </button>
-                        </li>
-                        <li><div class="dropdown-divider"></div></li>
-                        <li>
-                            <button class="dropdown-item delete_data" data-id="' . $row['id'] . '">
-                                <span class="fa fa-trash text-danger"></span> Delete
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-
+                <div class="dropdown">
+                    <button class="dropdown-button" onclick="toggleDropdown(event)">Actions</button>
+                    <div class="dropdown-menu">
+                        <button class="view_data" data-id="' . $row['id'] . '">
+                            <i class="fa fa-info-circle"></i> View
+                        </button>
+                        <hr>
+                        <button class="edit_data" data-id="' . $row['id'] . '">
+                            <i class="fa fa-edit"></i> Edit
+                        </button>
+                        <hr>
+                        <button class="delete_data" data-id="' . $row['id'] . '">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
                 </div>
             </td>';
-
         }
         echo "</tr>";
         $i++;
@@ -125,3 +115,4 @@ $pagination .= "</div>";
 echo "<!--PAGINATION-->";
 echo $pagination;
 $conn->close();
+?>
