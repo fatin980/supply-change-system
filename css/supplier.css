@@ -279,7 +279,8 @@ button[type="btn"]:hover {
 }
 
 .view-modal-body span {
-    width: 48%;
+    width: 60%;
+    font-size: 14px;
 }
 
 #view_status {
@@ -289,6 +290,8 @@ button[type="btn"]:hover {
     text-align: center;
     font-weight: bold;
     min-width: 80px; /* Ensures it looks balanced */
+    width: 10%;
+    margin-right: 35%;
 } 
 
 
