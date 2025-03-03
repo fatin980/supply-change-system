@@ -135,11 +135,17 @@ if ($result->num_rows > 0) {
             <span class="close-btn" onclick="closeModal('customModal')">&times;</span>
             <h3>Add New Product</h3>
             <form id="productForm">
-                <input type="text" id="product_name" placeholder="Product Name" required>
-                <textarea id="description" placeholder="Description" required></textarea>
-                <input type="number" id="unit_price" placeholder="Unit Price" step="0.01" required>
+                <label>Product Name:</label>
+                <input type="text" id="product_name" required>
+
+                <label>Description:</label>
+                <textarea id="description" required></textarea>
+
+                <label>Unit Price:</label>
+                <input type="number" id="unit_price" step="0.01" required>
                     
                 <!-- Currency Dropdown (RM, USD, INR) -->
+                <label>Currency:</label>
                 <select id="currency" required>
                     <option value="RM">RM</option>
                     <option value="USD">USD</option>
@@ -147,6 +153,7 @@ if ($result->num_rows > 0) {
                 </select>
                     
                 <!-- Status Dropdown -->
+                 <label>Status:</label>
                 <select id="status" required>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>

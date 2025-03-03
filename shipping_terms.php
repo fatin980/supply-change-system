@@ -134,9 +134,11 @@ if ($result->num_rows > 0) {
             <span class="close-btn" onclick="closeModal('customModal')">&times;</span>
             <h3>Add New Shipping Term</h3>
             <form id="shippingForm">
-                <input type="text" id="requisitioners" placeholder="Requisitioners" required>
+                <label>Requisitioners:</label>
+                <input type="text" id="requisitioners" required>
 
                 <!-- Shipping Terms Dropdown -->
+                <label>Shipping Terms:</label>
                 <select id="shipping_terms" required>
                     <option value="FOB">FOB</option>
                     <option value="CIF">CIF</option>
@@ -146,6 +148,7 @@ if ($result->num_rows > 0) {
                 </select>
 
                 <!-- Delivery Method Dropdown -->
+                <label>Deliver Via:</label>
                 <select id="deliver_via" required>
                     <option value="Virtual Live Classroom">Virtual Live Classroom</option>
                     <option value="Face to Face">Face to Face</option>
@@ -156,6 +159,7 @@ if ($result->num_rows > 0) {
                 </select>
 
                 <!-- Status Dropdown -->
+                <label>Status:</label>
                 <select id="status" required>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
