@@ -46,7 +46,7 @@
             <div class="header-container">
                 <h2>Purchase Orders</h2>
                 <button class="create-btn" onclick="window.location.href='add_purchase_order.php'">
-                    Create New
+                    <i class="fa-solid fa-plus"></i> Create New
                 </button>
             </div>
 

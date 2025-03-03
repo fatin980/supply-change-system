@@ -56,8 +56,8 @@ if ($result->num_rows > 0) {
         <div class="content-container">
             <div class="header-container">
                 <h2>Shipping Terms List</h2>
-                <button class="create-btn" 
-                    onclick="openModal('customModal')">Create New
+                <button class="create-btn" onclick="openModal('customModal')">
+                    <i class="fa-solid fa-plus"></i> Create New
                 </button>
             </div>
 
@@ -80,23 +80,34 @@ if ($result->num_rows > 0) {
                     </thead>
                     <tbody>
                         <?php foreach ($data as $row): ?>
+                        <?php
+                        $statusClass = '';
+
+                        switch ($row['status']) {
+                            case 'Active':
+                                $statusClass = '<button style="background-color: #28a745; color: white; border: none; padding: 3px 6px; border-radius: 8px; cursor: pointer; font-weight: bold;">Active</button>';
+                                break;
+                            case 'Inactive':
+                                $statusClass = '<button style="background-color: #aaaaaa; color: white; border: none; padding: 3px 6px; border-radius: 8px; cursor: pointer; font-weight: bold;">Inactive</button>';
+                                break;
+                        }
+                        ?>
                             <tr>
                                 <td><?php echo $row['shipping_id']; ?></td>
                                 <td><?php echo $row['date_created']; ?></td>
                                 <td><?php echo $row['requisitioners']; ?></td>
                                 <td><?php echo $row['shipping_terms']; ?></td>
                                 <td><?php echo $row['deliver_via']; ?></td>
-                                <td><?php echo ucfirst($row['status']); ?></td>
+                                <td><?php echo $statusClass ?></td>
                                 <td>
-                                    <a href="view_shipping.php?id=<?php echo $row['shipping_id']; ?>" class="btn btn-info">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="edit_shipping.php?id=<?php echo $row['shipping_id']; ?>" class="btn btn-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="delete_shipping.php?id=<?php echo $row['shipping_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this shipping term?');">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <div class="dropdown">
+                                        <button class="dropbtn" onclick="toggleDropdown(this)">Action <i class="fa-solid fa-caret-down"></i></button>
+                                        <div class="dropdown-content">
+                                            <a href="view_shipping.php?id=<?php echo $row['shipping_id']; ?>"><i class="fa-regular fa-eye"></i> View</a>
+                                            <a href="edit_shipping.php?id=<?php echo $row['shipping_id']; ?>"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                                            <a href="delete_shipping.php?id=<?php echo $row['shipping_id']; ?>" onclick="return confirm('Are you sure you want to delete this entry?')"><i class="fa-regular fa-trash-can"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -219,6 +230,18 @@ if ($result->num_rows > 0) {
                     menu.classList.remove("show");
                 });
             }
+        };
+
+        function toggleDropdown(button) {
+            let dropdown = button.nextElementSibling;
+            dropdown.classList.toggle("show");
+
+            // Close other dropdowns when opening a new one
+            document.querySelectorAll(".dropdown-content").forEach(menu => {
+                if (menu !== dropdown) {
+                    menu.classList.remove("show");
+                }
+            });
         };
 
         document.getElementById("shippingForm").addEventListener("submit", function(event) {
