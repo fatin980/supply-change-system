@@ -92,7 +92,7 @@ if ($result->num_rows > 0) {
                                 $statusClass = '<button style="background-color: #aaaaaa; color: white; border: none; padding: 3px 6px; border-radius: 8px; cursor: pointer; font-weight: bold;">Inactive</button>';
                                 break;
                         }
-                        ?>
+                    ?>
                         <tr>
                             <td><?php echo $row['id'] ?></td>
                             <td><?php echo $row['date_created'] ?></td>
