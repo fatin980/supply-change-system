@@ -176,6 +176,7 @@ table {
     margin-top: 20px;
     background: white;
     border-radius: 8px;
+    overflow: visible;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
