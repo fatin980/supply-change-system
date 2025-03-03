@@ -47,18 +47,16 @@ if ($result->num_rows > 0) {
         if ($_SESSION['role'] == 'admin') {
             echo '<td align="center">
                 <div class="dropdown">
-                    <button class="dropdown-button" onclick="toggleDropdown(event)">Actions</button>
+                    <button class="dropdown-button" onclick="toggleDropdown(event)">Actions<i class="fa-solid fa-caret-down"></i></button>
                     <div class="dropdown-menu">
                         <button class="view_data" data-id="' . $row['id'] . '">
-                            <i class="fa fa-info-circle"></i> View
+                            <i class="fa-regular fa-eye"></i> View
                         </button>
-                        <hr>
-                        <button class="edit_data" data-id="' . $row['id'] . '">
-                            <i class="fa fa-edit"></i> Edit
+                            <button class="edit_data" data-id="' . $row['id'] . '">
+                            <i class="fa-regular fa-pen-to-square"></i> Edit
                         </button>
-                        <hr>
-                        <button class="delete_data" data-id="' . $row['id'] . '">
-                            <i class="fa fa-trash"></i> Delete
+                            <button class="delete_data" data-id="' . $row['id'] . '">
+                            <i class="fa-regular fa-trash-can"></i> Delete
                         </button>
                     </div>
                 </div>
